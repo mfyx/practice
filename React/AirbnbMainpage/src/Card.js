@@ -1,13 +1,26 @@
 import React from "react";
-//import star from "./star.jpg";
 import star from "../public/images/star.jpg";
 
 export default function Card(props) {
-    console.log(props);
+    // console.log(props);
+    let badgeText
+    if (props.item.openSpots === 0) {
+        badgeText = "SOLD OUT"
+    } else if (props.item.location === "Online") {
+        badgeText = "ONLINE"
+    } 
+    // else {
+    //     badgeText = "OFFLINE"
+    // }
+
     return (
         <div className="card">
+            {/* {props.openSpots === 0 && <div className="card--badge">SOLD OUT</div> } */}
+            {/* <div className="card--badge">{badgeText}</div> */}
+            {badgeText && <div className="card--badge">{badgeText}</div> }
+
             <img 
-                src={props.img} 
+                src={props.item.coverImg} 
                 className="card--image" 
                 alt="Main card image."
             />
@@ -17,16 +30,12 @@ export default function Card(props) {
                     className="card--star"
                     alt="Star icom."
                 />
-                <span>{props.rating}</span>
-                {/* <span>5.0</span> */}
-                <span className="grey">({props.reviewCount}) · </span>
-                <span className="grey">{props.country}</span>
-                {/* <span className="grey">USA</span> */}
+                <span>{props.item.stats.rating}</span>
+                <span className="grey">({props.item.stats.reviewCount}) · </span>
+                <span className="grey">{props.item.location}</span>
             </div>
-            <h2>{props.title}</h2>
-            {/* <h2>Life Lessons with Katie Zaferes</h2> */}
-            <p><span className="bold">From ${props.price}</span> / preson</p>
-            {/* <p><span className="bold">From $136</span> / preson</p> */}
+            <h2 className="card--title">{props.item.title}</h2>
+            <p><span className="bold">From ${props.item.price}</span> / preson</p>
         </div>
     )
 }
