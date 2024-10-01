@@ -5,26 +5,35 @@ import Footer from "./Footer";
 import MainContent from "./MainContent";
 import Hero from "./Hero";
 import Card from "./Card";
-import img1 from "./hero_1.jpg";
+import img1 from "../public/images/hero_1.jpg";
+import data from "./data"
 
 
 export default function App() {
+
+  const cards = data.map(item => {
+    return (
+      <Card 
+        img = {item.coverImg}
+        rating = {item.rating}
+        reviews = {item.reviews} 
+        country = {item.country}
+        price = {item.price}
+        title = {item.title}
+      />
+    );
+  });
+
   return (
     <div className="Container">
+
       <Navbar />
       <Hero />
-      <Card 
-        img={img1}
-        rating={5.0}
-        reviews={6}
-        country="USA"
-        price="136"
-        title="Life Lessons with Katie Zaferes"
-      />
-      {/* <h1>App component</h1> */}
-      {/* <Navbar /> */}
-      {/* <MainContent /> */}
-      {/* <Footer /> */}
+
+      <div className="Cards">
+        {cards}
+      </div>
+
     </div>
   );
 }

@@ -1,5 +1,6 @@
 import React from "react";
-import star from "./star.jpg";
+//import star from "./star.jpg";
+import star from "../public/images/star.jpg";
 
 export default function Card(props) {
     console.log(props);
