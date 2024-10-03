@@ -1,6 +1,9 @@
 import React from "react"
-import ReactMde from "react-mde"
+// import R from "react-mde"
+// const ReactMde = R.default
 import Showdown from "showdown"
+
+import ReactMde from "react-mde"
 
 export default function Editor({ currentNote, updateNote }) {
     const [selectedTab, setSelectedTab] = React.useState("write")
@@ -10,23 +13,7 @@ export default function Editor({ currentNote, updateNote }) {
         simplifiedAutoLink: true,
         strikethrough: true,
         tasklists: true,
-    })
-
-    // 定义只显示的工具栏命令
-    const toolbarCommands = [
-        [
-            {
-                name: "preview",
-                //icon: "eye",
-                execute: () => setSelectedTab("preview"),
-            },
-            {
-                name: "write",
-                //icon: "pencil",
-                execute: () => setSelectedTab("write"),
-            },
-        ],
-    ];
+    })  
 
     return (
         <section className="pane editor">
@@ -38,10 +25,6 @@ export default function Editor({ currentNote, updateNote }) {
                 generateMarkdownPreview={(markdown) =>
                     Promise.resolve(converter.makeHtml(markdown))
                 }
-
-                //toolbarCommands={toolbarCommands}
-                // toolbarCommands={[]}
-
                 minEditorHeight={80}
                 heightUnits="vh"
             />

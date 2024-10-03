@@ -14,10 +14,18 @@ import {nanoid} from "nanoid"
  */
 
 export default function App() {
-    const [notes, setNotes] = React.useState([])
+    // const [notes, setNotes] = React.useState([])
+    const [notes, setNotes] = React.useState(
+        () => JSON.parse(localStorage.getItem("notes")) || []   //use lazy initialization
+    )
+
     const [currentNoteId, setCurrentNoteId] = React.useState(
         (notes[0] && notes[0].id) || ""
     )
+
+    React.useEffect(() => {
+        localStorage.setItem("notes", JSON.stringify(notes))
+    }, [notes])
     
     function createNewNote() {
         const newNote = {
@@ -29,11 +37,58 @@ export default function App() {
     }
     
     function updateNote(text) {
-        setNotes(oldNotes => oldNotes.map(oldNote => {
-            return oldNote.id === currentNoteId
-                ? { ...oldNote, body: text }
-                : oldNote
-        }))
+        // Put the most recent note at the top
+        setNotes(oldNotes => {
+            const myNotes = oldNotes.map(oldNote => {
+                return oldNote.id === currentNoteId
+                    ? { ...oldNote, body: text }
+                    : oldNote
+                    // ? { ...oldNote, body: text }
+            });
+
+            const myNote = myNotes.find(note => {
+                return note.id === currentNoteId
+            });
+
+            return [
+                myNote,
+                ...myNotes.filter(note => {
+                    return note.id !== currentNoteId
+                })
+            ];
+        });
+
+        // anothor way to do that: 
+        // setNotes(oldNotes => {
+        //     const newArray = []
+        //     for(let i = 0; i < oldNotes.length; i++) {
+        //         const oldNote = oldNotes[i]
+        //         if(oldNote.id === currentNoteId) {
+        //             newArray.unshift({ ...oldNote, body: text })
+        //         } else {
+        //             newArray.push(oldNote)
+        //         }
+        //     }
+        //     return newArray
+        // })
+    }
+
+    function deleteNote(event, noteId) {
+        event.stopPropagation()
+
+        setNotes(prevNotes => {
+            return prevNotes.filter(note => {
+                return note.id !== noteId
+            })
+        })
+
+        if (currentNoteId === noteId) {
+            if(notes.length > 0) {
+                setCurrentNoteId(notes[0].id)
+            } else {
+                setCurrentNoteId("")
+            }
+        }
     }
     
     function findCurrentNote() {
@@ -57,6 +112,7 @@ export default function App() {
                     currentNote={findCurrentNote()}
                     setCurrentNoteId={setCurrentNoteId}
                     newNote={createNewNote}
+                    deleteNote={deleteNote}
                 />
                 {
                     currentNoteId && 
@@ -77,7 +133,6 @@ export default function App() {
                     Create one now
                 </button>
             </div>
-            
         }
         </main>
     )
