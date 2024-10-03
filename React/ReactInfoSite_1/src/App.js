@@ -4,18 +4,22 @@ import Navbar from "./Navbar";
 import Footer from "./Footer";
 import MainContent from "./MainContent";
 
-/**
-Challenge:
-
-- Add an `ul` inside the Header's `nav` and create
-  the following `li`s: "Pricing", "About", & "Contact"
-*/
-
 export default function App() {
+  const [darkMode, setDarkMode] = React.useState(false);
+  function toggleDarkMode() {
+    setDarkMode(prevMode => !prevMode);
+  }
+
   return (
-    <div className="Container">
-      <Navbar />
-      <MainContent />
+    <div className="container">
+      <Navbar 
+        darkMode={darkMode} 
+        toggleDarkMode={toggleDarkMode}
+      />
+      <MainContent
+        darkMode={darkMode}
+        toggleDarkMode={toggleDarkMode}
+      />
       {/* <Footer /> */}
     </div>
   );
