@@ -1,7 +1,7 @@
 import "./globals.css";
-import { Fugaz_One, Inter } from "next/font/google"
+import { Fugaz_One, Open_Sans } from "next/font/google"
 
-const inter = Inter({ subsets: ["latin"] })
+const opensans = Open_Sans({ subsets: ["latin"] })
 const fugaz = Fugaz_One({ subsets: ["latin"], weight: ['400'] })
 
 export const metadata = {
@@ -17,7 +17,7 @@ export default function RootLayout({ children }) {
   );
 
   const footer = (
-    <footer>
+    <footer className="p-4 sm:p-8">
       abcde
     </footer>
   );
@@ -25,7 +25,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className = 
-        { 'w-full max-w-[1000px] mx-auto text-sm sm:text-base min-h-screen flex flex-col ' + inter.className }
+        { 'w-full max-w-[1000px] mx-auto text-sm sm:text-base min-h-screen flex flex-col text-slate-800' + opensans.className }
       >
         {header}
         {children}
